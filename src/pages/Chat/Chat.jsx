@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import confetti from 'canvas-confetti'
-import { process } from 'dotenv'
 import load from '../../assets/load.gif'
 
 // Chargement du package OpenAI
