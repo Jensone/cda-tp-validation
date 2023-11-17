@@ -19,7 +19,7 @@ function Chat() {
     })
     const prePrompt = `Agis comme un chatbot qui répond à aux questions de ${formData.name}. 
                     Répond en commençant par son prénom et une salutation originale. La thématique est ${formData.subject}. Voici sa question : `
-    const [promt, setPromt] = useState('') // Constante pour le prompt à envoyer à l'API
+    const [prompt, setPrompt] = useState('') // Constante pour le prompt à envoyer à l'API
     const [apiResponse, setApiResponse] = useState('') // Constante pour la réponse de l'API
     const [loading, setLoading] = useState(false) // Constante pour le chargement en cours
 
@@ -31,7 +31,7 @@ function Chat() {
         try {
             const result = await openai.chat.completions.create({
                 model: 'gpt-3.5-turbo-0613', // Modèle à utiliser
-                messages: [{ role: 'user', content: prePrompt + promt }], // Prompt à envoyer à l'API
+                messages: [{ role: 'user', content: prePrompt + prompt }], // Prompt à envoyer à l'API
             })
             console.log(result.choices[0].message.content) // On affiche la réponse dans la console pour le débug
             setApiResponse(result.choices[0].message.content) // On met la réponse de l'API dans la constante
@@ -72,14 +72,14 @@ function Chat() {
                     <textarea
                         className="form-control"
                         placeholder="Pose ta question ici"
-                        value={promt}
-                        onChange={e => setPromt(e.target.value)}
+                        value={prompt}
+                        onChange={e => setPrompt(e.target.value)}
                     ></textarea>
                 </div>
                 <button
                     className="btn btn-warning rounded-pill"
                     type="submit"
-                    disabled={loading || promt.length === 0}
+                    disabled={loading || prompt.length === 0}
                 >
                     Envoyer
                 </button>
