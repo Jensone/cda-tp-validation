@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ToastMessage = ({ show, onClose, message }) => {
-    if (!show) {
+    if (!show) { // = false = ne rien afficher
         return null;
     }
 

@@ -5,35 +5,75 @@ import load from '../../assets/load.gif'
 
 // Chargement du package OpenAI
 import OpenAI from 'openai'
+import ToastMessage from '../Home/_components/ToastMessage'
 
 function Chat() {
     const location = useLocation()
     const navigate = useNavigate()
     const formData = location.state?.formData
+    const [showToast, setShowToast] = useState(false)
+
 
     // Configuration de l'API OpenAI
     const openai = new OpenAI({
         dangerouslyAllowBrowser: true,
         apiKey: import.meta.env.VITE_OPENAI_API_KEY, // Clé API depuis le fichier .env.local
     })
+    
+    
+    
+    
+    
+    
+    
     const prePrompt = `Agis comme un chatbot qui répond à aux questions de ${formData.name}. 
                     Répond en commençant par son prénom et une salutation originale. La thématique est ${formData.subject}. Voici sa question : `
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     const [prompt, setPrompt] = useState('') // Constante pour le prompt à envoyer à l'API
+
+
+
+
+
     const [apiResponse, setApiResponse] = useState('') // Constante pour la réponse de l'API
+
+
+
+
     const [loading, setLoading] = useState(false) // Constante pour le chargement en cours
+
+
+
+
+
+
+
 
     // Fonction pour envoyer le prompt à l'API
     const handleSubmit = async e => {
+
         // Fonction asynchrone car on utilise await
         e.preventDefault() // Empêche le rechargement de la page
+
         setLoading(true) // On met le chargement à true
         try {
             const result = await openai.chat.completions.create({
                 model: 'gpt-3.5-turbo-0613', // Modèle à utiliser
                 messages: [{ role: 'user', content: prePrompt + prompt }], // Prompt à envoyer à l'API
             })
-            console.log(result.choices[0].message.content) // On affiche la réponse dans la console pour le débug
+            console.log(result) // On affiche la réponse dans la console pour le débug
             setApiResponse(result.choices[0].message.content) // On met la réponse de l'API dans la constante
+            setShowToast(true)
         } catch (error) {
             setApiResponse('Une erreur est survenue') // On informe l'utilisateur d'une erreur
         }
@@ -90,6 +130,11 @@ function Chat() {
                     {apiResponse}
                 </code>
             </div>
+            <ToastMessage
+                show={showToast}
+                onClose={() => setShowToast(false)}
+                message={apiResponse}
+            />
         </main>
     )
 }
